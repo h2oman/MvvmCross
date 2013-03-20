@@ -36,6 +36,7 @@ namespace Cirrious.MvvmCross.Plugins.Sqlite
     public interface ISQLiteConnectionFactory
     {
         ISQLiteConnection Create(string address);
+        ISQLiteConnection Create(string address, bool storeDateTimeAsTicks);
     }
 
     [AttributeUsage(AttributeTargets.Class)]

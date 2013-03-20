@@ -15,8 +15,13 @@ namespace Cirrious.MvvmCross.Plugins.Sqlite.Touch
     {
         public ISQLiteConnection Create(string address)
         {
+            return Create(address, false);
+        }
+
+        public ISQLiteConnection Create(string address, bool storeDateTimeAsTicks)
+        {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            return new SQLiteConnection(Path.Combine(path, address));
+            return new SQLiteConnection(Path.Combine(path, address), storeDateTimeAsTicks);
         }
     }
 }
