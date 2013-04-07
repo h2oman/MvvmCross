@@ -10,9 +10,25 @@ using System.Collections.Generic;
 
 namespace Cirrious.MvvmCross.Plugins.Sqlite
 {
+    public enum DateFormat { AsString, AsTicks }
+    public enum DatabasePathFormat { SpecialFolderPersonal, Absolute }
+    
+    public class ConnectionOptions
+    {
+        public ConnectionOptions()
+        {
+            DateFormat = DateFormat.AsString;
+            DatabasePathFormat = DatabasePathFormat.SpecialFolderPersonal;
+        }
+
+        public DateFormat DateFormat { get; set; }
+        public DatabasePathFormat DatabasePathFormat { get; set; }
+    }
+
     public interface ISQLiteConnectionFactory
     {
         ISQLiteConnection Create(string address);
+        ISQLiteConnection Create(string address, ConnectionOptions connectionOptions);
     }
 
     [AttributeUsage(AttributeTargets.Class)]
