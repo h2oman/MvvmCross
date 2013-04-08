@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Cirrious.CrossCore;
 
 namespace Cirrious.CrossCore.IoC
 {
@@ -59,7 +60,6 @@ namespace Cirrious.CrossCore.IoC
         }
 
         public static IEnumerable<Type> Inherits<TBase>(this IEnumerable<Type> types)
-            where TBase : Attribute
         {
             return types.Inherits(typeof (TBase));
         }

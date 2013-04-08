@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Android.Content;
-using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore;
 using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Dialog.Droid;
 using Cirrious.MvvmCross.Droid.Platform;
@@ -28,12 +28,6 @@ namespace CustomerManagement.Droid
         {
             var app =  new App();
             return app;
-        }
-
-        protected override IMvxNavigationSerializer CreateNavigationSerializer()
-        {
-            Cirrious.MvvmCross.Plugins.Json.PluginLoader.Instance.EnsureLoaded();
-            return new MvxJsonNavigationSerializer();
         }
 
         protected override void InitializeLastChance()

@@ -10,7 +10,7 @@ using Cirrious.MvvmCross.Plugins.DownloadCache;
 using Cirrious.MvvmCross.Platform;
 using TwitterSearch.Core.Models;
 using Cirrious.CrossCore.Platform;
-using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Binding.ExtensionMethods;
 
 namespace TwitterSearch.UI.Touch
@@ -57,10 +57,20 @@ namespace TwitterSearch.UI.Touch
 
 			this.DelayBind (() =>
 			{
+
+                var bindings = this.CreateBindingSet<TwitterCell, Tweet>();
+                bindings.Bind(_imageHelper).To(tweet => tweet.ProfileImageUrl);
+                bindings.Bind(PersonLabel).To(tweet => tweet.Author);
+                bindings.Bind(WhenLabel).To(tweet => tweet.Timestamp).WithConversion("TimeAgo");
+                bindings.Bind(MainLabel).To(tweet => tweet.Title);
+                bindings.Apply();
+
+                /*
 				this.CreateBinding(_imageHelper).To((Tweet tweet) => tweet.ProfileImageUrl).Apply();
 				this.CreateBinding(PersonLabel).To((Tweet tweet) => tweet.Author).Apply();
 				this.CreateBinding(WhenLabel).To((Tweet tweet) => tweet.Timestamp).WithConversion("TimeAgo").Apply();
 				this.CreateBinding(MainLabel).To((Tweet tweet) => tweet.Title).Apply();
+                 */
 			});
 		}
 

@@ -1,4 +1,5 @@
-﻿using Cirrious.CrossCore.IoC;
+﻿using Cirrious.CrossCore;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.ViewModels;
 using TwitterSearch.Core.ViewModels;
 

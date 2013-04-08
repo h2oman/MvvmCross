@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Android.Content;
-using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore;
 using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.Droid;
 using Cirrious.MvvmCross.Binding.Parse.Binding;
@@ -25,12 +25,6 @@ namespace TwitterSearch.UI.Droid
         protected override IMvxApplication CreateApp()
         {
             return new TwitterSearchApp();
-        }
-
-        protected override IMvxNavigationSerializer CreateNavigationSerializer()
-        {
-            Cirrious.MvvmCross.Plugins.Json.PluginLoader.Instance.EnsureLoaded();
-            return new MvxJsonNavigationSerializer();
         }
 
         protected override void InitializeLastChance()

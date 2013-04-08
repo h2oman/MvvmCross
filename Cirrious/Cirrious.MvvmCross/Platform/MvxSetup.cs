@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using Cirrious.CrossCore.Core;
 using Cirrious.CrossCore.Exceptions;
+using Cirrious.CrossCore;
 using Cirrious.CrossCore.IoC;
 using Cirrious.CrossCore.Platform;
 using Cirrious.CrossCore.Plugins;
@@ -58,6 +59,8 @@ namespace Cirrious.MvvmCross.Platform
 
         public virtual void InitializeSecondary()
         {
+            MvxTrace.Trace("Setup: Bootstrap actions");
+            PerformBootstrapActions();
             MvxTrace.Trace("Setup: ViewModelFramework start");
             InitializeViewModelFramework();
             MvxTrace.Trace("Setup: PluginManagerFramework start");
@@ -74,10 +77,32 @@ namespace Cirrious.MvvmCross.Platform
             InitializeViewLookup();
             MvxTrace.Trace("Setup: CommandCollectionBuilder start");
             InitialiseCommandCollectionBuilder();
+            MvxTrace.Trace("Setup: NavigationSerializer start");
+            InitializeNavigationSerializer();
             MvxTrace.Trace("Setup: LastChance start");
             InitializeLastChance();
             MvxTrace.Trace("Setup: Secondary end");
             State = MvxSetupState.Initialized;
+        }
+
+        protected virtual void PerformBootstrapActions()
+        {
+            var bootstrapRunner = new MvxBootstrapRunner();
+            foreach (var assembly in GetBootstrapOwningAssemblies())
+            {
+                bootstrapRunner.Run(assembly);
+            }
+        }
+
+        protected virtual void InitializeNavigationSerializer()
+        {
+            var serializer = CreateNavigationSerializer();
+            Mvx.RegisterSingleton(serializer);
+        }
+
+        protected virtual IMvxNavigationSerializer CreateNavigationSerializer()
+        {
+            return new MvxStringDictionaryNavigationSerializer();
         }
 
         protected virtual void InitialiseCommandCollectionBuilder()
@@ -232,6 +257,16 @@ namespace Cirrious.MvvmCross.Platform
             return new[] {assembly};
         }
 
+        protected virtual Assembly[] GetBootstrapOwningAssemblies()
+        {
+            var assemblies = new List<Assembly>();
+            assemblies.AddRange(GetViewAssemblies());
+            //ideally we would also add ViewModelAssemblies here too :/
+            //assemblies.AddRange(GetViewModelAssemblies());
+            return assemblies.Distinct().ToArray();
+        }
+
+        /*
         protected virtual Assembly[] GetPluginOwningAssemblies()
         {
             var assemblies = new List<Assembly>();
@@ -240,6 +275,7 @@ namespace Cirrious.MvvmCross.Platform
             //assemblies.AddRange(GetViewModelAssemblies());
             return assemblies.Distinct().ToArray();
         }
+         */
 
         protected virtual void InitialiseViewModelTypeFinder()
         {

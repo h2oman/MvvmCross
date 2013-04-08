@@ -1,4 +1,4 @@
-﻿using Cirrious.CrossCore.IoC;
+﻿using Cirrious.CrossCore;
 using Cirrious.CrossCore.Platform;
 using Cirrious.CrossCore.Plugins;
 using Cirrious.MvvmCross.Platform;
@@ -21,12 +21,6 @@ namespace TwitterSearch.UI.WP7
         protected override IMvxApplication CreateApp()
         {
             return new TwitterSearchApp();
-        }
-
-        protected override IMvxNavigationSerializer CreateNavigationSerializer()
-        {
-            Cirrious.MvvmCross.Plugins.Json.PluginLoader.Instance.EnsureLoaded();
-            return new MvxJsonNavigationSerializer();
         }
     }
 }

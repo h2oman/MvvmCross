@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Android.Content;
-using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore;
 using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.Droid;
 using Cirrious.MvvmCross.Droid.Platform;
@@ -25,15 +25,10 @@ namespace BestSellers.Droid
             return new App();
         }
 
-        protected override IMvxNavigationSerializer CreateNavigationSerializer()
-        {
-            Cirrious.MvvmCross.Plugins.Json.PluginLoader.Instance.EnsureLoaded();
-            return new MvxJsonNavigationSerializer();
-        }
-
         protected override void InitializeLastChance()
         {
             var errorHandler = new ErrorDisplayer(ApplicationContext);
+            Cirrious.MvvmCross.Plugins.Json.PluginLoader.Instance.EnsureLoaded();
             Cirrious.MvvmCross.Plugins.Visibility.PluginLoader.Instance.EnsureLoaded();
             Cirrious.MvvmCross.Plugins.File.PluginLoader.Instance.EnsureLoaded();
             Cirrious.MvvmCross.Plugins.DownloadCache.PluginLoader.Instance.EnsureLoaded();
