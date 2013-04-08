@@ -69,25 +69,6 @@
     <MtouchArch>ARMv6_ARMv7</MtouchArch>
     <MtouchExtraArgs>-aot "nrgctx-trampolines=4096" -aot "nimt-trampolines=4096" -aot "ntrampolines=4096"</MtouchExtraArgs>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Distribution|iPhone' ">
-    <DebugType>none</DebugType>
-    <Optimize>False</Optimize>
-    <OutputPath>bin\iPhone\Distribution</OutputPath>
-    <WarningLevel>4</WarningLevel>
-    <CodesignProvision>EB90992E-D081-4316-ABBE-2E1D5C032C70</CodesignProvision>
-    <IpaPackageName />
-    <MtouchI18n />
-    <MtouchUseLlvm>True</MtouchUseLlvm>
-    <MtouchArch>ARMv6_ARMv7</MtouchArch>
-    <MtouchExtraArgs>-aot "nrgctx-trampolines=4096" -aot "nimt-trampolines=4096" -aot "ntrampolines=4096"</MtouchExtraArgs>
-    <CodesignKey>iPhone Distribution: Stuart Lodge</CodesignKey>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Distribution|iPhoneSimulator' ">
-    <DebugType>none</DebugType>
-    <Optimize>False</Optimize>
-    <OutputPath>bin\Distribution</OutputPath>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AdHoc|iPhone' ">
     <DebugType>none</DebugType>
     <Optimize>False</Optimize>
@@ -113,9 +94,6 @@
     <Reference Include="mscorlib" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Touch">
-      <HintPath>..\..\bin\Debug\Mvx\Touch\System.Net.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -183,6 +161,17 @@
       <DependentUpon>SeparatorCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\FoldingTableViewController.cs" />
+    <Compile Include="Bootstrap\DownloadCachePluginBootstrap.cs" />
+    <Compile Include="Bootstrap\EmailPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\FilePluginBootstrap.cs" />
+    <Compile Include="Bootstrap\JsonLocalisationPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\JsonPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\SharePluginBootstrap.cs" />
+    <Compile Include="Bootstrap\VisibilityPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\WebBrowserPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\NetworkPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\PhoneCallPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\ResourceLoaderPluginBootstrap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
@@ -402,6 +391,30 @@
       <Project>{19EE04D6-7EE0-4FE8-AB10-4623D93F165A}</Project>
       <Name>Cirrious.MvvmCross.Plugins.File</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\Cirrious\Email\Cirrious.MvvmCross.Plugins.Email\Cirrious.MvvmCross.Plugins.Email.csproj">
+      <Project>{157A8846-529E-4549-84EA-7FC8BAFBC25A}</Project>
+      <Name>Cirrious.MvvmCross.Plugins.Email</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\Cirrious\Share\Cirrious.MvvmCross.Plugins.Share\Cirrious.MvvmCross.Plugins.Share.csproj">
+      <Project>{3787C5C0-7A05-44CD-A270-62D6AD03B5E3}</Project>
+      <Name>Cirrious.MvvmCross.Plugins.Share</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\Cirrious\Visibility\Cirrious.MvvmCross.Plugins.Visibility\Cirrious.MvvmCross.Plugins.Visibility.csproj">
+      <Project>{0D471B62-CB8E-4814-81A6-4C0B774A8825}</Project>
+      <Name>Cirrious.MvvmCross.Plugins.Visibility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\Cirrious\WebBrowser\Cirrious.MvvmCross.Plugins.WebBrowser\Cirrious.MvvmCross.Plugins.WebBrowser.csproj">
+      <Project>{4DD71F8B-40DF-4DC3-84B5-7A76722F1C67}</Project>
+      <Name>Cirrious.MvvmCross.Plugins.WebBrowser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\Cirrious\ResourceLoader\Cirrious.MvvmCross.Plugins.ResourceLoader\Cirrious.MvvmCross.Plugins.ResourceLoader.csproj">
+      <Project>{75CA1824-C7F3-4827-93ED-E75B2C01CB2C}</Project>
+      <Name>Cirrious.MvvmCross.Plugins.ResourceLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\Cirrious\PhoneCall\Cirrious.MvvmCross.Plugins.PhoneCall\Cirrious.MvvmCross.Plugins.PhoneCall.csproj">
+      <Project>{97C01AFB-C43A-4B75-A456-079706A2F888}</Project>
+      <Name>Cirrious.MvvmCross.Plugins.PhoneCall</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
@@ -418,5 +431,8 @@
     <InterfaceDefinition Include="Cells\SessionCell2.xib" />
     <InterfaceDefinition Include="Cells\SessionCell.xib" />
     <InterfaceDefinition Include="Cells\SeparatorCell.xib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Bootstrap\" />
   </ItemGroup>
 </Project>
