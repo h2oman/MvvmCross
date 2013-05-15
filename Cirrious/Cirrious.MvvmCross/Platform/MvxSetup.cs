@@ -22,6 +22,8 @@ namespace Cirrious.MvvmCross.Platform
 {
     public abstract class MvxSetup
     {
+        protected abstract IMvxTrace CreateDebugTrace();
+
         protected abstract IMvxApplication CreateApp();
 
         protected abstract MvxViewsContainer CreateViewsContainer();
@@ -61,6 +63,8 @@ namespace Cirrious.MvvmCross.Platform
         {
             MvxTrace.Trace("Setup: Bootstrap actions");
             PerformBootstrapActions();
+            MvxTrace.Trace("Setup: StringToTypeParser start");
+            InitializeStringToTypeParser();
             MvxTrace.Trace("Setup: ViewModelFramework start");
             InitializeViewModelFramework();
             MvxTrace.Trace("Setup: PluginManagerFramework start");
@@ -83,6 +87,18 @@ namespace Cirrious.MvvmCross.Platform
             InitializeLastChance();
             MvxTrace.Trace("Setup: Secondary end");
             State = MvxSetupState.Initialized;
+        }
+
+        protected virtual void InitializeStringToTypeParser()
+        {
+            var parser = CreateStringToTypeParser();
+            Mvx.RegisterSingleton<IMvxStringToTypeParser>(parser);
+            Mvx.RegisterSingleton<IMvxFillableStringToTypeParser>(parser);
+        }
+
+        protected virtual MvxStringToTypeParser CreateStringToTypeParser()
+        {
+            return new MvxStringToTypeParser();
         }
 
         protected virtual void PerformBootstrapActions()
@@ -140,6 +156,8 @@ namespace Cirrious.MvvmCross.Platform
 
         protected virtual void InitializeDebugServices()
         {
+            var debugTrace = CreateDebugTrace();
+            Mvx.RegisterSingleton<IMvxTrace>(debugTrace);
             MvxTrace.Initialize();
         }
 
