@@ -1554,45 +1554,34 @@ namespace SQLite
         public static string SqlType(TableMapping.Column p, bool storeDateTimeAsTicks)
         {
             var clrType = p.ColumnType;
-            if (clrType == typeof (Boolean) || clrType == typeof (Byte) || clrType == typeof (UInt16) ||
-                clrType == typeof (SByte) || clrType == typeof (Int16) || clrType == typeof (Int32))
-            {
-                return "integer";
-            }
-            else if (clrType == typeof (UInt32) || clrType == typeof (Int64))
-            {
-                return "bigint";
-            }
-            else if (clrType == typeof (Single) || clrType == typeof (Double) || clrType == typeof (Decimal))
-            {
-                return "float";
-            }
-            else if (clrType == typeof (String))
-            {
-                int len = p.MaxStringLength;
-                return "varchar(" + len + ")";
-            }
-            else if (clrType == typeof (DateTime))
-            {
-                return storeDateTimeAsTicks ? "bigint" : "datetime";
+			if (clrType == typeof(Boolean) || clrType == typeof(Byte) || clrType == typeof(UInt16) ||
+				clrType == typeof(SByte) || clrType == typeof(Int16) || clrType == typeof(Int32)) {
+				return "integer";
+			} else if (clrType == typeof(UInt32) || clrType == typeof(Int64)) {
+				return "bigint";
+			} else if (clrType == typeof(Single) || clrType == typeof(Double) || clrType == typeof(Decimal)) {
+				return "float";
+			} else if (clrType == typeof(String)) {
+				int len = p.MaxStringLength;
+				return "varchar(" + len + ")";
+			} else if (clrType == typeof(DateTime)) {
+				return storeDateTimeAsTicks ? "bigint" : "datetime";
 #if !NETFX_CORE
-            }
-            else if (clrType.IsEnum)
-            {
+			} else if (clrType.IsEnum) {
 #else
 			} else if (clrType.GetTypeInfo().IsEnum) {
 #endif
-                return "integer";
-            }
-            else if (clrType == typeof (byte[]))
-            {
-                return "blob";
+				return "integer";
+			} else if (clrType == typeof(byte[])) {
+				return "blob";
 #if SQLITE_SUPPORT_GUID
             } else if (clrType == typeof(Guid)) {
                 return "varchar(36)";
 #endif
-            }
-            else
+			} else if (clrType == typeof(NodaTime.Instant)) {
+				return "bigint";
+			}
+			else
             {
                 throw new NotSupportedException("Don't know about " + clrType);
             }
@@ -1860,50 +1849,34 @@ namespace SQLite
             }
             else
             {
-                if (value is Int32)
-                {
-                    SQLite3.BindInt(stmt, index, (int) value);
-                }
-                else if (value is String)
-                {
-                    SQLite3.BindText(stmt, index, (string) value, -1, NegativePointer);
-                }
-                else if (value is Byte || value is UInt16 || value is SByte || value is Int16)
-                {
-                    SQLite3.BindInt(stmt, index, Convert.ToInt32(value));
-                }
-                else if (value is Boolean)
-                {
-                    SQLite3.BindInt(stmt, index, (bool) value ? 1 : 0);
-                }
-                else if (value is UInt32 || value is Int64)
-                {
-                    SQLite3.BindInt64(stmt, index, Convert.ToInt64(value));
-                }
-                else if (value is Single || value is Double || value is Decimal)
-                {
-                    SQLite3.BindDouble(stmt, index, Convert.ToDouble(value));
-                }
-                else if (value is DateTime)
-                {
-                    if (storeDateTimeAsTicks)
-                    {
-                        SQLite3.BindInt64(stmt, index, ((DateTime) value).Ticks);
-                    }
-                    else
-                    {
-                        SQLite3.BindText(stmt, index, ((DateTime) value).ToString("yyyy-MM-dd HH:mm:ss"), -1,
-                                         NegativePointer);
-                    }
+				if (value is Int32) {
+					SQLite3.BindInt (stmt, index, (int)value);
+				} else if (value is String) {
+					SQLite3.BindText (stmt, index, (string)value, -1, NegativePointer);
+				} else if (value is Byte || value is UInt16 || value is SByte || value is Int16) {
+					SQLite3.BindInt (stmt, index, Convert.ToInt32 (value));
+				} else if (value is Boolean) {
+					SQLite3.BindInt (stmt, index, (bool)value ? 1 : 0);
+				} else if (value is UInt32 || value is Int64) {
+					SQLite3.BindInt64 (stmt, index, Convert.ToInt64 (value));
+				} else if (value is Single || value is Double || value is Decimal) {
+					SQLite3.BindDouble (stmt, index, Convert.ToDouble (value));
+				} else if (value is DateTime) {
+					if (storeDateTimeAsTicks) {
+						SQLite3.BindInt64 (stmt, index, ((DateTime)value).Ticks);
+					} else {
+						SQLite3.BindText (stmt, index, ((DateTime)value).ToString ("yyyy-MM-dd HH:mm:ss"), -1,
+						                                   NegativePointer);
+					}
 #if !NETFX_CORE
-                }
-                else if (value.GetType().IsEnum)
-                {
+				} else if (value.GetType ().IsEnum) {
 #else
 				} else if (value.GetType().GetTypeInfo().IsEnum) {
 #endif
-                    SQLite3.BindInt(stmt, index, Convert.ToInt32(value));
-                }
+					SQLite3.BindInt (stmt, index, Convert.ToInt32 (value));
+				} else if (value is NodaTime.Instant) {
+					SQLite3.BindInt64 (stmt, index, ((NodaTime.Instant)value).Ticks);
+				}
                 else if (value is byte[])
                 {
                     SQLite3.BindBlob(stmt, index, (byte[]) value, ((byte[]) value).Length, NegativePointer);
@@ -1936,26 +1909,19 @@ namespace SQLite
             }
             else
             {
-                if (clrType == typeof (String))
-                {
-                    return SQLite3.ColumnString(stmt, index);
-                }
-                else if (clrType == typeof (Int32))
-                {
-                    return SQLite3.ColumnInt(stmt, index);
-                }
-                else if (clrType == typeof (Boolean))
-                {
-                    return SQLite3.ColumnInt(stmt, index) == 1;
-                }
-                else if (clrType == typeof (double))
-                {
-                    return SQLite3.ColumnDouble(stmt, index);
-                }
-                else if (clrType == typeof (float))
-                {
-                    return (float) SQLite3.ColumnDouble(stmt, index);
-                }
+				if (clrType == typeof(String)) {
+					return SQLite3.ColumnString (stmt, index);
+				} else if (clrType == typeof(Int32)) {
+					return SQLite3.ColumnInt (stmt, index);
+				} else if (clrType == typeof(Boolean)) {
+					return SQLite3.ColumnInt (stmt, index) == 1;
+				} else if (clrType == typeof(double)) {
+					return SQLite3.ColumnDouble (stmt, index);
+				} else if (clrType == typeof(float)) {
+					return (float)SQLite3.ColumnDouble (stmt, index);
+				} else if (clrType == typeof(NodaTime.Instant)) {
+					return new NodaTime.Instant(SQLite3.ColumnInt64(stmt, index));
+				}
                 else if (clrType == typeof (DateTime))
                 {
                     if (_conn.StoreDateTimeAsTicks)

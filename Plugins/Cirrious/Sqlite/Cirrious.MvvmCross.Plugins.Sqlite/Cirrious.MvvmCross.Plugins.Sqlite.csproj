@@ -60,4 +60,9 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Reference Include="NodaTime">
+      <HintPath>..\..\..\..\..\NodaTime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
