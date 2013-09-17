@@ -17,8 +17,7 @@ namespace Cirrious.MvvmCross.Droid.Views
 {
     public class MvxAndroidViewsContainer
         : MvxViewsContainer
-          , IMvxAndroidViewModelLoader
-          , IMvxAndroidViewModelRequestTranslator
+         , IMvxAndroidViewsContainer
     {
         private const string ExtrasKey = "MvxLaunchData";
         private const string SubViewModelKey = "MvxSubViewModelKey";
@@ -34,7 +33,7 @@ namespace Cirrious.MvvmCross.Droid.Views
 
         public virtual IMvxViewModel Load(Intent intent, IMvxBundle savedState)
         {
-            return Load(intent, null);
+            return Load(intent, null, null);
         }
 
         public virtual IMvxViewModel Load(Intent intent, IMvxBundle savedState, Type viewModelTypeHint)
@@ -131,12 +130,13 @@ namespace Cirrious.MvvmCross.Droid.Views
 
             AdjustIntentForPresentation(intent, request);
 
-            intent.AddFlags(ActivityFlags.NewTask);
             return intent;
         }
 
         protected virtual void AdjustIntentForPresentation(Intent intent, MvxViewModelRequest request)
         {
+            intent.AddFlags(ActivityFlags.NewTask);
+
 #warning we want to do things here... clear top, remove history item, etc
 //#warning ClearTop is not enough :/ Need to work on an Intent based scheme like http://stackoverflow.com/questions/3007998/on-logout-clear-activity-history-stack-preventing-back-button-from-opening-l
 //            if (request.ClearTop)

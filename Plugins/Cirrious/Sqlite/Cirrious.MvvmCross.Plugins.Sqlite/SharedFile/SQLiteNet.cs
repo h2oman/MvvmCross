@@ -2150,7 +2150,7 @@ namespace SQLite
             return q;
         }
 
-        public TableQuery<T> Where(Expression<Func<T, bool>> predExpr)
+        public ITableQuery<T> Where(Expression<Func<T, bool>> predExpr)
         {
             if (predExpr.NodeType == ExpressionType.Lambda)
             {
@@ -2166,14 +2166,14 @@ namespace SQLite
             }
         }
 
-        public TableQuery<T> Take(int n)
+        public ITableQuery<T> Take(int n)
         {
             var q = Clone<T>();
             q._limit = n;
             return q;
         }
 
-        public TableQuery<T> Skip(int n)
+        public ITableQuery<T> Skip(int n)
         {
             var q = Clone<T>();
             q._offset = n;
@@ -2194,12 +2194,12 @@ namespace SQLite
             return q;
         }
 
-        public TableQuery<T> OrderBy<U>(Expression<Func<T, U>> orderExpr)
+        public ITableQuery<T> OrderBy<U>(Expression<Func<T, U>> orderExpr)
         {
             return AddOrderBy(orderExpr, true);
         }
 
-        public TableQuery<T> OrderByDescending<U>(Expression<Func<T, U>> orderExpr)
+        public ITableQuery<T> OrderByDescending<U>(Expression<Func<T, U>> orderExpr)
         {
             return AddOrderBy(orderExpr, false);
         }
@@ -2247,8 +2247,8 @@ namespace SQLite
             }
         }
 
-        public TableQuery<TResult> Join<TInner, TKey, TResult>(
-            TableQuery<TInner> inner,
+        public ITableQuery<TResult> Join<TInner, TKey, TResult>(
+            ITableQuery<TInner> inner,
             Expression<Func<T, TKey>> outerKeySelector,
             Expression<Func<TInner, TKey>> innerKeySelector,
             Expression<Func<T, TInner, TResult>> resultSelector)
@@ -2259,14 +2259,14 @@ namespace SQLite
                 {
                     _joinOuter = this,
                     _joinOuterKeySelector = outerKeySelector,
-                    _joinInner = inner,
+                    _joinInner = (BaseTableQuery)inner,
                     _joinInnerKeySelector = innerKeySelector,
                     _joinSelector = resultSelector,
                 };
             return q;
         }
 
-        public TableQuery<TResult> Select<TResult>(Expression<Func<T, TResult>> selector)
+        public ITableQuery<TResult> Select<TResult>(Expression<Func<T, TResult>> selector)
             where TResult : new()
         {
             var q = Clone<TResult>();

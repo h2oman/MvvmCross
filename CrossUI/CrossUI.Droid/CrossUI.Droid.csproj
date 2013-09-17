@@ -12,7 +12,6 @@
     <RootNamespace>CrossUI.Droid</RootNamespace>
     <AssemblyName>CrossUI.Droid</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v1.6</TargetFrameworkVersion>
     <AndroidSupportedAbis>armeabi%3barmeabi-v7a%3bx86</AndroidSupportedAbis>
     <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
@@ -52,6 +51,10 @@
     <Compile Include="Builder\DroidMenuBuilder.cs" />
     <Compile Include="Builder\DroidSectionBuilder.cs" />
     <Compile Include="Builder\DroidUserInterfaceBuilder.cs" />
+    <Compile Include="Dialog\CustomDataSetObserver.cs" />
+    <Compile Include="Dialog\Elements\IRadioElement.cs" />
+    <Compile Include="Dialog\InternalStyleable.cs" />
+    <Compile Include="Dialog\LinearDialogActivity.cs" />
     <Compile Include="Dialog\Elements\AchievementElement.cs" />
     <Compile Include="Dialog\ElementAttributes\AlignmentAttribute.cs" />
     <Compile Include="Dialog\ElementAttributes\DateAttribute.cs" />
@@ -69,6 +72,7 @@
     <Compile Include="Dialog\DialogListFragment.cs" />
     <Compile Include="Dialog\DialogListView.cs" />
     <Compile Include="Builder\DroidElementBuilder.cs" />
+    <Compile Include="Dialog\LinearDialogScrollView.cs" />
     <Compile Include="DroidResources.cs" />
     <Compile Include="Dialog\Elements\Element.cs" />
     <Compile Include="Dialog\Elements\EntryElement.cs" />
